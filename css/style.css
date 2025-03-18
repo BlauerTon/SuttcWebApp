@@ -250,7 +250,46 @@ a {
   background-image: url(img/regtt.jpg);
   background-size: cover;
   background-position: 50% 50%;
-  margin-top: 100px; /* Matches navigation height */
+  margin-top: 100px;
+  overflow: hidden;
+}
+
+.homepage .slideshow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.homepage .slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation: slideshow 9s infinite;
+}
+
+.homepage .slide:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.homepage .slide:nth-child(2) {
+  animation-delay: 3s;
+}
+
+.homepage .slide:nth-child(3) {
+  animation-delay: 6s;
+}
+
+@keyframes slideshow {
+  0% { opacity: 0; }
+  11.11% { opacity: 0.7; } /* Fade in, slightly transparent */
+  33.33% { opacity: 0.7; } /* Stay visible */
+  44.44% { opacity: 0; } /* Fade out */
+  100% { opacity: 0; }
 }
 
 .homepage .p {
@@ -265,6 +304,7 @@ a {
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
+  z-index: 1;
 }
 
 .homepage .join-the-SUTTC {
@@ -279,6 +319,7 @@ a {
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
+  z-index: 1;
 }
 
 .homepage .div-wrapper {
@@ -291,6 +332,7 @@ a {
   background-color: #003478;
   border-radius: 20px;
   overflow: hidden;
+  z-index: 1;
 }
 
 .homepage .text-wrapper-11 {
@@ -323,15 +365,13 @@ a {
 }
 
 .homepage .logo {
-  position: absolute;
-  width: 120px; /* Slightly reduced from 150px for better fit */
-  height: 70px; /* Adjusted proportionally */
-  top: 15px;
-  left: 20px; /* Closer to edge */
+  width: 120px;
+  height: 70px;
   background-image: url(img/logo.jpeg);
-  background-size: contain; /* Changed to contain to ensure full visibility */
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  margin-right: 20px;
 }
 
 /* Navigation Buttons */
@@ -344,11 +384,11 @@ a {
   cursor: pointer;
   font-family: "Montserrat-Regular", Helvetica;
   font-weight: 400;
-  font-size: 16px; /* Reduced from 18px */
+  font-size: 16px;
   letter-spacing: 0;
   line-height: normal;
   transition: all 0.3s ease;
-  margin-left: 20px; /* Spacing between buttons */
+  margin-left: 20px;
 }
 
 /* Specific positioning for each button */
