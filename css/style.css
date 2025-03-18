@@ -250,7 +250,7 @@ a {
   background-image: url(img/regtt.jpg);
   background-size: cover;
   background-position: 50% 50%;
-  margin-top: 100px;
+  margin-top: 0;
   overflow: hidden;
 }
 
@@ -286,9 +286,9 @@ a {
 
 @keyframes slideshow {
   0% { opacity: 0; }
-  11.11% { opacity: 0.7; } /* Fade in, slightly transparent */
-  33.33% { opacity: 0.7; } /* Stay visible */
-  44.44% { opacity: 0; } /* Fade out */
+  11.11% { opacity: 0.7; }
+  33.33% { opacity: 0.7; }
+  44.44% { opacity: 0; }
   100% { opacity: 0; }
 }
 
@@ -324,13 +324,13 @@ a {
 
 .homepage .div-wrapper {
   position: absolute;
-  width: 180px;
-  height: 50px;
+  width: 150px;
+  height: 40px;
   top: 65%;
   left: 50%;
   transform: translateX(-50%);
   background-color: #003478;
-  border-radius: 20px;
+  border-radius: 10px;
   overflow: hidden;
   z-index: 1;
 }
@@ -338,12 +338,12 @@ a {
 .homepage .text-wrapper-11 {
   position: absolute;
   width: 80%;
-  top: 12px;
+  top: 10px;
   left: 10%;
   font-family: "Montserrat-Regular", Helvetica;
   font-weight: 400;
-  color: #eaab00;
-  font-size: 18px;
+  color: #ffffff;
+  font-size: 16px;
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
@@ -353,8 +353,8 @@ a {
   position: fixed;
   width: 100%;
   max-width: 1280px;
-  height: 100px;
-  top: 0;
+  height: 70px;
+  top: -70px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #ffffff;
@@ -362,11 +362,16 @@ a {
   display: flex;
   align-items: center;
   padding: 0 20px;
+  transition: top 0.3s ease;
+}
+
+.homepage .navigation.visible {
+  top: 0;
 }
 
 .homepage .logo {
-  width: 120px;
-  height: 70px;
+  width: 100px;
+  height: 50px;
   background-image: url(img/logo.jpeg);
   background-size: contain;
   background-position: center;
@@ -387,45 +392,46 @@ a {
   font-size: 16px;
   letter-spacing: 0;
   line-height: normal;
-  transition: all 0.3s ease;
-  margin-left: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  margin-left: 15px;
 }
 
-/* Specific positioning for each button */
 .homepage .text-wrapper-12 {
   position: absolute;
-  top: 35px;
-  left: 300px;
+  top: 20px; /* Adjusted for smaller navbar */
+  right: 260px; /* Increased spacing */
+  left: auto;
 }
 
 .homepage .text-wrapper-13 {
   position: absolute;
-  top: 35px;
-  left: 420px;
+  top: 20px;
+  right: 180px; /* Equal 80px gap */
+  left: auto;
 }
 
 .homepage .text-wrapper-14 {
   position: absolute;
-  top: 35px;
-  left: 540px;
+  top: 20px;
+  right: 100px; /* Equal 80px gap */
+  left: auto;
 }
 
 .homepage .text-wrapper-15 {
   position: absolute;
-  top: 35px;
-  left: 660px;
+  top: 20px;
+  right: 20px; /* Equal 80px gap from edge */
+  left: auto;
 }
 
 /* Hover Effects */
 .homepage .nav-button:hover {
   background-color: #eaab00;
   color: #003478;
-  transform: scale(1.05);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Active State */
 .homepage .nav-button:active {
-  transform: scale(1);
   box-shadow: none;
 }
