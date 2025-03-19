@@ -90,47 +90,71 @@ a {
   text-align: center;
 }
 
+/* "Participate in ..." title */
+.homepage .text-wrapper-3 {
+  position: relative;
+  width: 100%;
+  font-family: var(--font-family);
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 28px;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  margin-bottom: var(--spacing-small); /* Reduced spacing to bring it closer to cards */
+  text-transform: uppercase;
+}
+
+/* Tournament option section */
 .homepage .tournament-option {
   position: relative;
   width: 95%;
   height: auto;
   margin: var(--spacing-medium) auto;
   padding-bottom: var(--spacing-medium);
+  display: flex;
+  flex-direction: column; /* Stack title and cards vertically */
+  align-items: center; /* Center everything horizontally */
 }
 
-.homepage .text-wrapper-3 {
-  position: relative;
+/* Container for cards to center them */
+.homepage .tournament-option .cards-container {
+  display: flex;
+  justify-content: center; /* Center cards horizontally */
+  gap: 1%; /* Maintain small gap between cards */
   width: 100%;
-  font-family: var(--font-family);
-  font-weight: 400;
-  color: var(--text-color);
-  font-size: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-  text-align: center;
-  margin-bottom: var(--spacing-small);
+  flex-wrap: nowrap; /* Keep cards in one row */
 }
 
 .homepage .under,
 .homepage .under-2,
 .homepage .under-3,
 .homepage .under-4 {
-  width: 23%;
+  width: 23%; /* Fixed width for consistency */
   height: 200px;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--primary-color);
-  position: relative;
-  display: inline-block;
-  margin: 0 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.homepage .under:hover,
+.homepage .under-2:hover,
+.homepage .under-3:hover,
+.homepage .under-4:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .homepage .text-wrapper-4,
 .homepage .text-wrapper-6,
 .homepage .text-wrapper-7 {
-  position: absolute;
-  width: 80%;
-  left: 10%;
   font-family: var(--font-family);
   font-weight: 400;
   color: var(--text-color);
@@ -138,16 +162,13 @@ a {
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
-  top: 20px;
+  margin-bottom: 10px;
 }
 
 .homepage .boys-girls,
 .homepage .men-ladies,
 .homepage .element-men-ladies,
 .homepage .text-wrapper-8 {
-  position: absolute;
-  width: 90%;
-  left: 5%;
   font-family: var(--font-family);
   font-weight: 400;
   color: var(--text-color);
@@ -155,21 +176,17 @@ a {
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
-  top: 70px;
+  margin-bottom: 10px;
 }
 
 .homepage .text-wrapper-5 {
-  width: 80%;
-  left: 10%;
-  color: var(--secondary-color);
-  position: absolute;
   font-family: var(--font-family);
   font-weight: 400;
+  color: var(--secondary-color);
   font-size: 20px;
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
-  bottom: 20px;
 }
 
 .homepage .separation-bar,
@@ -195,24 +212,26 @@ a {
   position: relative;
   width: 100%;
   font-family: var(--font-family);
-  font-weight: 400;
-  color: var(--text-color);
-  font-size: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-  margin-bottom: var(--spacing-small);
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 32px;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: var(--spacing-medium);
+  text-transform: uppercase;
 }
 
-.homepage .span {
-  font-family: var(--font-family);
-  font-weight: 400;
-  color: var(--text-color);
-  font-size: 24px;
-  letter-spacing: 0;
-}
-
-.homepage .text-wrapper-9 {
-  font-size: 20px;
+.homepage .welcome-to-the::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background-color: var(--secondary-color);
+  border-radius: 2px;
 }
 
 .homepage .every-year,
@@ -224,8 +243,35 @@ a {
   color: var(--text-color);
   font-size: 18px;
   letter-spacing: 0;
-  line-height: 1.5;
+  line-height: 1.6;
   margin: var(--spacing-small) 0;
+  text-align: center;
+}
+
+.homepage .why-join-test-your ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 auto;
+  display: inline-block;
+  text-align: left;
+}
+
+.homepage .why-join-test-your li {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 10px;
+}
+
+.homepage .why-join-test-your li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background-color: var(--secondary-color);
+  border-radius: 50%;
 }
 
 .homepage .frame {
@@ -235,21 +281,34 @@ a {
   background-color: var(--primary-color);
   border-radius: 20px;
   overflow: hidden;
-  margin: var(--spacing-small) auto;
+  margin: var(--spacing-medium) auto;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.homepage .frame:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.05);
 }
 
 .homepage .text-wrapper-10 {
   position: absolute;
   width: 80%;
-  top: 12px;
-  left: 10%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-family: var(--font-family);
   font-weight: 400;
-  color: var(--secondary-color);
+  color: var(--white);
   font-size: 18px;
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
+  transition: color 0.3s ease;
+}
+
+.homepage .frame:hover .text-wrapper-10 {
+  color: var(--primary-color);
 }
 
 .homepage .landing-image {
@@ -448,5 +507,18 @@ a {
   .homepage .nav-button {
     padding: 6px 12px;
     font-size: 14px;
+  }
+
+  .homepage .tournament-option .cards-container {
+    flex-direction: column; /* Stack cards vertically */
+    align-items: center; /* Center cards horizontally */
+  }
+
+  .homepage .under,
+  .homepage .under-2,
+  .homepage .under-3,
+  .homepage .under-4 {
+    width: 80%; /* Increase width for smaller screens */
+    margin-bottom: var(--spacing-small); /* Add spacing between stacked cards */
   }
 }
