@@ -90,7 +90,6 @@ a {
   text-align: center;
 }
 
-/* "Participate in ..." title */
 .homepage .text-wrapper-3 {
   position: relative;
   width: 100%;
@@ -101,11 +100,10 @@ a {
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
-  margin-bottom: var(--spacing-small); /* Reduced spacing to bring it closer to cards */
+  margin-bottom: var(--spacing-small);
   text-transform: uppercase;
 }
 
-/* Tournament option section */
 .homepage .tournament-option {
   position: relative;
   width: 95%;
@@ -113,24 +111,23 @@ a {
   margin: var(--spacing-medium) auto;
   padding-bottom: var(--spacing-medium);
   display: flex;
-  flex-direction: column; /* Stack title and cards vertically */
-  align-items: center; /* Center everything horizontally */
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Container for cards to center them */
 .homepage .tournament-option .cards-container {
   display: flex;
-  justify-content: center; /* Center cards horizontally */
-  gap: 1%; /* Maintain small gap between cards */
+  justify-content: center;
+  gap: 40px;
   width: 100%;
-  flex-wrap: nowrap; /* Keep cards in one row */
+  flex-wrap: nowrap;
 }
 
 .homepage .under,
 .homepage .under-2,
 .homepage .under-3,
 .homepage .under-4 {
-  width: 23%; /* Fixed width for consistency */
+  width: 14%;
   height: 200px;
   border-radius: 16px;
   overflow: hidden;
@@ -486,14 +483,14 @@ a {
   color: var(--primary-color);
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .homepage .under,
   .homepage .under-2,
   .homepage .under-3,
   .homepage .under-4 {
-    width: 48%;
-    margin: 1%;
+    width: 60%;
+    margin: 1% auto;
   }
 
   .homepage .text-wrapper-2 {
@@ -510,15 +507,16 @@ a {
   }
 
   .homepage .tournament-option .cards-container {
-    flex-direction: column; /* Stack cards vertically */
-    align-items: center; /* Center cards horizontally */
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
   }
 
   .homepage .under,
   .homepage .under-2,
   .homepage .under-3,
   .homepage .under-4 {
-    width: 80%; /* Increase width for smaller screens */
-    margin-bottom: var(--spacing-small); /* Add spacing between stacked cards */
+    width: 60%;
+    margin-bottom: var(--spacing-small);
   }
 }
