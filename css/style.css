@@ -79,9 +79,39 @@ a {
   height: 50px;
 }
 
+.homepage .hamburger-menu {
+  display: none; /* Hidden by default on desktop */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+  z-index: 11;
+}
+
+.homepage .hamburger-menu span {
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.homepage .hamburger-menu.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.homepage .hamburger-menu.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.homepage .hamburger-menu.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
 .homepage .nav-buttons {
   display: flex;
   gap: 15px;
+  transition: all 0.3s ease;
 }
 
 .homepage .nav-button {
@@ -330,22 +360,22 @@ a {
 }
 
 .homepage .frame {
-  position: relative; /* Ensure positioning context for child */
+  position: relative;
   width: 250px;
   height: 50px;
   background-color: var(--primary-color);
   border-radius: 20px;
-  overflow: visible; /* Changed from hidden to ensure text is not clipped */
+  overflow: visible;
   margin: var(--spacing-medium) auto;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Added shadow for depth */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .homepage .frame:hover {
   background-color: var(--secondary-color);
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .homepage .text-wrapper-10 {
@@ -356,17 +386,17 @@ a {
   transform: translate(-50%, -50%);
   font-family: var(--font-family);
   font-weight: 500;
-  color: var(--white) !important; /* Ensure white text is visible by default */
+  color: var(--white) !important;
   font-size: 18px;
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
-  opacity: 1; /* Ensure text is fully opaque */
+  opacity: 1;
   transition: color 0.3s ease;
 }
 
 .homepage .frame:hover .text-wrapper-10 {
-  color: var(--primary-color) !important; /* Dark blue text on yellow background */
+  color: var(--primary-color) !important;
 }
 
 .homepage .tournament-option {
@@ -528,11 +558,37 @@ a {
 @media (max-width: 768px) {
   .homepage .navigation {
     padding: 0 var(--spacing-small);
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 70px;
+  }
+
+  .homepage .hamburger-menu {
+    display: flex; /* Show hamburger menu on mobile */
+  }
+
+  .homepage .nav-buttons {
+    display: none; /* Hide by default on mobile */
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: var(--white);
+    position: absolute;
+    top: 70px;
+    left: 0;
+    padding: var(--spacing-small) 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .homepage .nav-buttons.active {
+    display: flex; /* Show when active */
   }
 
   .homepage .nav-button {
-    padding: 8px 15px;
-    font-size: 14px;
+    width: 80%;
+    margin: 5px 0;
+    padding: 12px;
+    font-size: 16px;
   }
 
   .homepage .landing-image {
