@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Register for the 2025 SUTTC Table Tennis Tournament at Strathmore University. Pay via card or Lipa na M-Pesa.">
+  <meta name="keywords" content="SUTTC, Table Tennis, Tournament, Strathmore University, Registration">
+  <meta name="author" content="Sidney Nduti">
+  <link rel="stylesheet" href="css/registration.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Register for SUTTC 2025 Tournament</title>
+</head>
+<body>
+<div class="registration-page">
+  <div class="navigation">
+    <div class="logo">
+      <img src="img/logo.jpeg" alt="SUTTC Logo" style="width: 100%; height: 100%; object-fit: contain;" loading="lazy">
+    </div>
+    <div class="hamburger-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="nav-buttons">
+      <a href="index.html"><button class="nav-button">Home</button></a>
+      <button class="nav-button active">Register</button>
+      <button class="nav-button">About</button>
+      <button class="nav-button">Contact</button>
+    </div>
+  </div>
+
+  <div class="registration-section">
+    <h2 class="section-title">Register for SUTTC 2025 Tournament</h2>
+    <form id="registration-form" class="registration-form" onsubmit="return validateForm(event)">
+      <!-- User Details -->
+      <div class="form-group">
+        <label for="full-name">Full Name</label>
+        <input type="text" id="full-name" name="full-name" placeholder="Enter your full name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="e.g., 0712345678" required>
+      </div>
+      <div class="form-group">
+        <label for="category">Tournament Category</label>
+        <select id="category" name="category" required onchange="updateFee()">
+          <option value="" disabled selected>Select a category</option>
+          <option value="under-18">Under 18 (Boys & Girls) - 300 Kshs</option>
+          <option value="singles">Singles (Men & Ladies) - 400 Kshs</option>
+          <option value="mixed-team">Mixed Team (2 Men & 2 Ladies) - 1800 Kshs</option>
+          <option value="family-team">Family Team (Amateur Division) - 1000 Kshs</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Registration Fee</label>
+        <p id="fee-display" class="fee-display">Select a category to see the fee</p>
+      </div>
+
+      <!-- Payment Method Selection -->
+      <div class="form-group">
+        <label>Payment Method</label>
+        <div class="payment-options">
+          <label>
+            <input type="radio" name="payment-method" value="card" onchange="togglePaymentFields()" required> Card
+          </label>
+          <label>
+            <input type="radio" name="payment-method" value="mpesa" onchange="togglePaymentFields()" required> Lipa na M-Pesa
+          </label>
+        </div>
+      </div>
+
+      <!-- Card Payment Fields -->
+      <div id="card-payment" class="payment-details hidden">
+        <div class="form-group">
+          <label for="card-number">Card Number</label>
+          <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456">
+        </div>
+        <div class="form-row">
+          <div class="form-group half-width">
+            <label for="expiry">Expiry Date</label>
+            <input type="text" id="expiry" name="expiry" placeholder="MM/YY">
+          </div>
+          <div class="form-group half-width">
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" name="cvv" placeholder="123">
+          </div>
+        </div>
+      </div>
+
+      <!-- M-Pesa Payment Fields -->
+      <div id="mpesa-payment" class="payment-details hidden">
+        <div class="form-group">
+          <label for="mpesa-phone">M-Pesa Phone Number</label>
+          <input type="tel" id="mpesa-phone" name="mpesa-phone" placeholder="e.g., 0712345678">
+          <p class="info-text">An STK push will be sent to this number to complete the payment.</p>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-button">Register & Pay</button>
+    </form>
+  </div>
+
+  <footer class="footer">
+    <p class="text-wrapper">© 2025 Strathmore University Table Tennis Club. All rights reserved.</p>
+  </footer>
+</div>
+
+<script>
+  // Toggle payment fields based on payment method
+  function togglePaymentFields() {
+    const cardFields = document.getElementById('card-payment');
+    const mpesaFields = document.getElementById('mpesa-payment');
+    const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
+
+    cardFields.classList.add('hidden');
+    mpesaFields.classList.add('hidden');
+
+    if (paymentMethod === 'card') {
+      cardFields.classList.remove('hidden');
+    } else if (paymentMethod === 'mpesa') {
+      mpesaFields.classList.remove('hidden');
+    }
+  }
+
+  // Update registration fee based on category
+  function updateFee() {
+    const category = document.getElementById('category').value;
+    const feeDisplay = document.getElementById('fee-display');
+    const fees = {
+      'under-18': '300 Kshs',
+      'singles': '400 Kshs',
+      'mixed-team': '1800 Kshs',
+      'family-team': '1000 Kshs'
+    };
+    feeDisplay.textContent = fees[category] || 'Select a category to see the fee';
+  }
+
+  // Basic form validation
+  function validateForm(event) {
+    event.preventDefault();
+    const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
+
+    if (paymentMethod === 'card') {
+      const cardNumber = document.getElementById('card-number').value;
+      const expiry = document.getElementById('expiry').value;
+      const cvv = document.getElementById('cvv').value;
+      if (!cardNumber || !expiry || !cvv) {
+        alert('Please fill in all card details.');
+        return false;
+      }
+    } else if (paymentMethod === 'mpesa') {
+      const mpesaPhone = document.getElementById('mpesa-phone').value;
+      if (!mpesaPhone) {
+        alert('Please enter your M-Pesa phone number.');
+        return false;
+      }
+    }
+
+    alert('Registration submitted! In a real implementation, this would process your payment and confirm your registration.');
+    return true;
+  }
+
+  // Navigation bar scroll effect
+  window.addEventListener('scroll', function() {
+    const nav = document.querySelector('.navigation');
+    if (window.scrollY > 50) {
+      nav.classList.add('visible');
+    } else {
+      nav.classList.remove('visible');
+    }
+  });
+
+  // Hamburger menu toggle
+  document.querySelector('.hamburger-menu').addEventListener('click', function() {
+    const navButtons = document.querySelector('.nav-buttons');
+    navButtons.classList.toggle('active');
+    this.classList.toggle('open');
+  });
+</script>
+</body>
+</html>
