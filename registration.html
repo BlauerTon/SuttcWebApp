@@ -38,26 +38,63 @@
         <input type="text" id="full-name" name="full-name" placeholder="Enter your full name" required>
       </div>
       <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required>
-      </div>
-      <div class="form-group">
         <label for="phone">Phone Number</label>
         <input type="tel" id="phone" name="phone" placeholder="e.g., 0712345678" required>
       </div>
+      <!-- Gender Selection -->
       <div class="form-group">
-        <label for="category">Tournament Category</label>
-        <select id="category" name="category" required onchange="updateFee()">
-          <option value="" disabled selected>Select a category</option>
-          <option value="under-18">Under 18 (Boys & Girls) - 300 Kshs</option>
-          <option value="singles">Singles (Men & Ladies) - 400 Kshs</option>
-          <option value="mixed-team">Mixed Team (2 Men & 2 Ladies) - 1800 Kshs</option>
-          <option value="family-team">Family Team (Amateur Division) - 1000 Kshs</option>
-        </select>
+        <label>Gender</label>
+        <div class="gender-options">
+          <label>
+            <input type="radio" name="gender" value="male" required> Male
+          </label>
+          <label>
+            <input type="radio" name="gender" value="female" required> Female
+          </label>
+        </div>
+      </div>
+      <!-- Tournament Categories (Checkboxes) -->
+      <div class="form-group">
+        <label>Tournament Categories</label>
+        <div class="category-options">
+          <label>
+            <input type="checkbox" name="category" value="under-18" onchange="updateForm()"> Under 18 (Boys & Girls) - 300 Kshs
+          </label>
+          <label>
+            <input type="checkbox" name="category" value="singles" onchange="updateForm()"> Singles (Men & Ladies) - 400 Kshs
+          </label>
+          <label>
+            <input type="checkbox" name="category" value="mixed-team" onchange="updateForm()"> Mixed Team (2 Men & 2 Ladies) - 1800 Kshs
+          </label>
+          <label>
+            <input type="checkbox" name="category" value="family-team" onchange="updateForm()"> Family Team (Amateur Division) - 1000 Kshs
+          </label>
+        </div>
+      </div>
+      <!-- Mixed Team Details -->
+      <div id="mixed-team-details" class="team-details hidden">
+        <div class="form-group">
+          <label for="mixed-team-name">Mixed Team Name</label>
+          <input type="text" id="mixed-team-name" name="mixed-team-name" placeholder="Enter your team name">
+        </div>
+        <div class="form-group">
+          <label>Team Members (2 Men, 2 Ladies)</label>
+          <input type="text" name="mixed-team-member" placeholder="Member 1 Name" class="team-member">
+          <input type="text" name="mixed-team-member" placeholder="Member 2 Name" class="team-member">
+          <input type="text" name="mixed-team-member" placeholder="Member 3 Name" class="team-member">
+          <input type="text" name="mixed-team-member" placeholder="Member 4 Name" class="team-member">
+        </div>
+      </div>
+      <!-- Family Team Details -->
+      <div id="family-team-details" class="team-details hidden">
+        <div class="form-group">
+          <label for="family-team-name">Family Team Name</label>
+          <input type="text" id="family-team-name" name="family-team-name" placeholder="Enter your team name">
+        </div>
       </div>
       <div class="form-group">
         <label>Registration Fee</label>
-        <p id="fee-display" class="fee-display">Select a category to see the fee</p>
+        <p id="fee-display" class="fee-display">Select categories to see the total fee</p>
       </div>
 
       <!-- Payment Method Selection -->
@@ -127,24 +164,80 @@
     }
   }
 
-  // Update registration fee based on category
-  function updateFee() {
-    const category = document.getElementById('category').value;
+  // Update form based on selected categories
+  function updateForm() {
+    const categories = document.querySelectorAll('input[name="category"]:checked');
+    const mixedTeamDetails = document.getElementById('mixed-team-details');
+    const familyTeamDetails = document.getElementById('family-team-details');
     const feeDisplay = document.getElementById('fee-display');
+
+    // Toggle team details visibility
+    const isMixedTeamSelected = Array.from(categories).some(cat => cat.value === 'mixed-team');
+    const isFamilyTeamSelected = Array.from(categories).some(cat => cat.value === 'family-team');
+
+    mixedTeamDetails.classList.toggle('hidden', !isMixedTeamSelected);
+    familyTeamDetails.classList.toggle('hidden', !isFamilyTeamSelected);
+
+    // Set required attribute for team name fields
+    document.getElementById('mixed-team-name').required = isMixedTeamSelected;
+    document.getElementById('family-team-name').required = isFamilyTeamSelected;
+    const mixedTeamMembers = document.querySelectorAll('#mixed-team-details .team-member');
+    mixedTeamMembers.forEach(member => member.required = isMixedTeamSelected);
+
+    // Calculate total fee
     const fees = {
-      'under-18': '300 Kshs',
-      'singles': '400 Kshs',
-      'mixed-team': '1800 Kshs',
-      'family-team': '1000 Kshs'
+      'under-18': 300,
+      'singles': 400,
+      'mixed-team': 1800,
+      'family-team': 1000
     };
-    feeDisplay.textContent = fees[category] || 'Select a category to see the fee';
+    let totalFee = 0;
+    categories.forEach(category => {
+      totalFee += fees[category.value] || 0;
+    });
+    feeDisplay.textContent = totalFee > 0 ? `${totalFee} Kshs` : 'Select categories to see the total fee';
   }
 
   // Basic form validation
   function validateForm(event) {
     event.preventDefault();
+    const categories = document.querySelectorAll('input[name="category"]:checked');
     const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
 
+    // Ensure at least one category is selected
+    if (categories.length === 0) {
+      alert('Please select at least one tournament category.');
+      return false;
+    }
+
+    // Validate team details if applicable
+    const isMixedTeamSelected = Array.from(categories).some(cat => cat.value === 'mixed-team');
+    const isFamilyTeamSelected = Array.from(categories).some(cat => cat.value === 'family-team');
+
+    if (isMixedTeamSelected) {
+      const mixedTeamName = document.getElementById('mixed-team-name').value;
+      const mixedTeamMembers = document.querySelectorAll('#mixed-team-details .team-member');
+      if (!mixedTeamName) {
+        alert('Please enter your Mixed Team name.');
+        return false;
+      }
+      for (let member of mixedTeamMembers) {
+        if (!member.value) {
+          alert('Please enter all Mixed Team member names.');
+          return false;
+        }
+      }
+    }
+
+    if (isFamilyTeamSelected) {
+      const familyTeamName = document.getElementById('family-team-name').value;
+      if (!familyTeamName) {
+        alert('Please enter your Family Team name.');
+        return false;
+      }
+    }
+
+    // Validate payment details
     if (paymentMethod === 'card') {
       const cardNumber = document.getElementById('card-number').value;
       const expiry = document.getElementById('expiry').value;
