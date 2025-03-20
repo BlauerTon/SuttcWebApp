@@ -237,13 +237,20 @@ a {
 }
 
 .gender-options,
-.category-options,
-.payment-options {
+.category-options {
   display: flex;
   flex-direction: column;
   gap: 10px;
   justify-content: center;
   align-items: flex-start;
+}
+
+.payment-options {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-medium);
+  justify-content: center;
+  align-items: center;
 }
 
 .gender-options label,
@@ -329,7 +336,7 @@ a {
   text-align: center;
 }
 
-/* Media Query for Mobile */
+
 @media (max-width: 768px) {
   .registration-page .navigation {
     padding: 0 var(--spacing-small);
@@ -389,6 +396,11 @@ a {
   .category-options label,
   .payment-options label {
     font-size: 14px;
+  }
+
+  .payment-options {
+    flex-direction: row;
+    gap: var(--spacing-small);
   }
 
   .form-row {
