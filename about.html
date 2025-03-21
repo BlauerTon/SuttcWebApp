@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about the Strathmore University Table Tennis Club (SUTTC) and the 2025 Tournament.">
+  <meta name="keywords" content="SUTTC, Table Tennis, Tournament, Strathmore University, About">
+  <meta name="author" content="Sidney Nduti">
+  <link rel="stylesheet" href="css/about.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>About SUTTC 2025 Tournament</title>
+</head>
+<body>
+<div class="about-page">
+  <div class="navigation">
+    <div class="logo">
+      <img src="img/logo.jpeg" alt="SUTTC Logo" style="width: 100%; height: 100%; object-fit: contain;" loading="lazy">
+    </div>
+    <div class="hamburger-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="nav-buttons">
+      <a href="index.html"><button class="nav-button">Home</button></a>
+      <a href="registration.html"><button class="nav-button">Register</button></a>
+      <button class="nav-button active">About</button>
+      <a href="contact.html"><button class="nav-button">Contact</button></a>
+    </div>
+  </div>
+
+  <div class="hero-section">
+    <h1 class="hero-title">About SUTTC</h1>
+    <p class="hero-subtitle">Discover the Legacy of Strathmore University Table Tennis Club</p>
+  </div>
+
+  <div class="about-content">
+    <div class="content-section">
+      <h2 class="section-title">Our History</h2>
+      <p class="section-text">
+        The Strathmore University Table Tennis Club (SUTTC) was founded in 2010 with a mission to promote table tennis within the university and the wider community. Over the years, SUTTC has grown into a powerhouse, hosting annual tournaments that attract players from across Kenya. Our club has produced numerous champions and fostered a vibrant community of table tennis enthusiasts.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title">The 2025 Tournament</h2>
+      <p class="section-text">
+        The 2025 SUTTC Table Tennis Tournament is set to be our biggest yet! Taking place at Strathmore University, this year’s event will feature categories for all skill levels: Under 18 (Boys & Girls), Singles (Men & Ladies), Mixed Team (2 Men & 2 Ladies), and Family Team (Amateur Division). With over 100 expected participants, exciting prizes, and a chance to make history, this is an event you don’t want to miss.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title">Our Mission & Values</h2>
+      <p class="section-text">
+        At SUTTC, we believe in the power of sport to unite, inspire, and transform. Our mission is to provide a platform for players to showcase their talent, build lasting connections, and grow both on and off the table. We value sportsmanship, inclusivity, and excellence, and we’re committed to making table tennis accessible to everyone.
+      </p>
+    </div>
+
+    <div class="cta-section">
+      <h2 class="section-title">Join the Action</h2>
+      <p class="section-text">Ready to be part of the SUTTC legacy? Register now and compete in the 2025 Tournament!</p>
+      <a href="registration.html">
+        <button class="cta-button">Register Now</button>
+      </a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p class="text-wrapper">© 2025 Strathmore University Table Tennis Club. All rights reserved.</p>
+  </footer>
+</div>
+
+<script>
+  // Navigation bar scroll effect
+  window.addEventListener('scroll', function() {
+    const nav = document.querySelector('.navigation');
+    if (window.scrollY > 50) {
+      nav.classList.add('visible');
+    } else {
+      nav.classList.remove('visible');
+    }
+  });
+
+  // Hamburger menu toggle
+  document.querySelector('.hamburger-menu').addEventListener('click', function() {
+    const navButtons = document.querySelector('.nav-buttons');
+    navButtons.classList.toggle('active');
+    this.classList.toggle('open');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact the Strathmore University Table Tennis Club (SUTTC) for inquiries about the 2025 Tournament.">
+  <meta name="keywords" content="SUTTC, Table Tennis, Tournament, Strathmore University, Contact">
+  <meta name="author" content="Sidney Nduti">
+  <link rel="stylesheet" href="css/contact.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Contact SUTTC 2025 Tournament</title>
+</head>
+<body>
+<div class="contact-page">
+  <div class="navigation">
+    <div class="logo">
+      <img src="img/logo.jpeg" alt="SUTTC Logo" style="width: 100%; height: 100%; object-fit: contain;" loading="lazy">
+    </div>
+    <div class="hamburger-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="nav-buttons">
+      <a href="index.html"><button class="nav-button">Home</button></a>
+      <a href="registration.html"><button class="nav-button">Register</button></a>
+      <button class="nav-button">About</button>
+      <button class="nav-button active">Contact</button>
+    </div>
+  </div>
+
+  <div class="hero-section">
+    <h1 class="hero-title">Get in Touch with SUTTC</h1>
+    <p class="hero-subtitle">Have questions about the 2025 Tournament? We’re here to help!</p>
+  </div>
+
+  <div class="contact-section">
+    <div class="contact-form-container">
+      <h2 class="section-title">Send Us a Message</h2>
+      <form id="contact-form" class="contact-form" onsubmit="return validateForm(event)">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="e.g., 0712345678" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Enter your message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="submit-button">Send Message</button>
+      </form>
+    </div>
+
+    <div class="contact-info">
+      <h2 class="section-title">Contact Information</h2>
+      <div class="info-item">
+        <span class="info-label">Phone:</span>
+        <span class="info-value">+254 712 345 678</span>
+        <span class="info-value">+254 712 345 678</span>
+
+      </div>
+      <div class="info-item">
+        <span class="info-label">Email:</span>
+        <span class="info-value">suttc@strathmore.edu</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Location:</span>
+        <span class="info-value">Strathmore University, Keri Rd, Nairobi, Kenya</span>
+      </div>
+      <div class="info-item social-links">
+        <span class="info-label">Follow Us:</span>
+        <div class="social-icons">
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook"><img src="img/facebook.png" alt="Facebook" class="social-icon" loading="lazy"></a>
+          <a href="https://twitter.com" target="_blank" aria-label="Twitter"><img src="img/twitter.png" alt="Twitter" class="social-icon" loading="lazy"></a>
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram"><img src="img/instagram.png" alt="Instagram" class="social-icon" loading="lazy"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p class="text-wrapper">© 2025 Strathmore University Table Tennis Club. All rights reserved.</p>
+  </footer>
+</div>
+
+<script>
+  // Basic form validation
+  function validateForm(event) {
+    event.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const message = document.getElementById('message').value;
+
+    if (!name || !email || !phone || !message) {
+      alert('Please fill in all required fields.');
+      return false;
+    }
+
+    alert('Message sent! We will get back to you soon.');
+    document.getElementById('contact-form').reset();
+    return true;
+  }
+
+  // Navigation bar scroll effect
+  window.addEventListener('scroll', function() {
+    const nav = document.querySelector('.navigation');
+    if (window.scrollY > 50) {
+      nav.classList.add('visible');
+    } else {
+      nav.classList.remove('visible');
+    }
+  });
+
+  // Hamburger menu toggle
+  document.querySelector('.hamburger-menu').addEventListener('click', function() {
+    const navButtons = document.querySelector('.nav-buttons');
+    navButtons.classList.toggle('active');
+    this.classList.toggle('open');
+  });
+</script>
+</body>
+</html>
+
+
