@@ -9,6 +9,35 @@
   <link rel="stylesheet" href="css/registration.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <title>Register for SUTTC 2025 Tournament</title>
+  <style>
+    .error-message {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ff4444;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 5px;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; top: 0; }
+      to { opacity: 1; top: 20px; }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .team-member {
+      margin-bottom: 8px;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
 <div class="registration-page">
@@ -31,19 +60,19 @@
 
   <div class="registration-section">
     <h2 class="section-title">Register for SUTTC 2025 Tournament</h2>
-    <form id="registration-form" class="registration-form" onsubmit="return handlePayment(event)">
+    <form id="registration-form" class="registration-form">
       <!-- User Details -->
       <div class="form-group">
-        <label for="full-name">Full Name</label>
+        <label for="full-name">Full Name *</label>
         <input type="text" id="full-name" name="full-name" placeholder="Enter your full name" required>
       </div>
       <div class="form-group">
-        <label for="phone">Phone Number</label>
+        <label for="phone">Phone Number *</label>
         <input type="tel" id="phone" name="phone" placeholder="e.g., 0712345678" required>
       </div>
       <!-- Gender Selection -->
       <div class="form-group">
-        <label>Gender</label>
+        <label>Gender *</label>
         <div class="gender-options">
           <label>
             <input type="radio" name="gender" value="male" required> Male
@@ -55,7 +84,7 @@
       </div>
       <!-- Tournament Categories (Checkboxes) -->
       <div class="form-group">
-        <label>Tournament Categories</label>
+        <label>Tournament Categories *</label>
         <div class="category-options">
           <label>
             <input type="checkbox" name="category" value="under-18" onchange="updateForm()"> Under 18 (Boys & Girls) - 300 Kshs
@@ -74,11 +103,11 @@
       <!-- Mixed Team Details -->
       <div id="mixed-team-details" class="team-details hidden">
         <div class="form-group">
-          <label for="mixed-team-name">Mixed Team Name</label>
+          <label for="mixed-team-name">Mixed Team Name *</label>
           <input type="text" id="mixed-team-name" name="mixed-team-name" placeholder="Enter your team name">
         </div>
         <div class="form-group">
-          <label>Team Members (2 Men, 2 Ladies)</label>
+          <label>Team Members (2 Men, 2 Ladies) *</label>
           <input type="text" name="mixed-team-member" placeholder="Member 1 Name" class="team-member">
           <input type="text" name="mixed-team-member" placeholder="Member 2 Name" class="team-member">
           <input type="text" name="mixed-team-member" placeholder="Member 3 Name" class="team-member">
@@ -88,7 +117,7 @@
       <!-- Family Team Details -->
       <div id="family-team-details" class="team-details hidden">
         <div class="form-group">
-          <label for="family-team-name">Family Team Name</label>
+          <label for="family-team-name">Family Team Name *</label>
           <input type="text" id="family-team-name" name="family-team-name" placeholder="Enter your team name">
         </div>
       </div>
@@ -99,7 +128,7 @@
 
       <!-- Payment Method Selection -->
       <div class="form-group">
-        <label>Payment Method</label>
+        <label>Payment Method *</label>
         <div class="payment-options">
           <label>
             <input type="radio" name="payment-method" value="card" onchange="togglePaymentFields()" required> Card
@@ -113,16 +142,16 @@
       <!-- Card Payment Fields -->
       <div id="card-payment" class="payment-details hidden">
         <div class="form-group">
-          <label for="card-number">Card Number</label>
+          <label for="card-number">Card Number *</label>
           <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456">
         </div>
         <div class="form-row">
           <div class="form-group half-width">
-            <label for="expiry">Expiry Date</label>
+            <label for="expiry">Expiry Date *</label>
             <input type="text" id="expiry" name="expiry" placeholder="MM/YY">
           </div>
           <div class="form-group half-width">
-            <label for="cvv">CVV</label>
+            <label for="cvv">CVV *</label>
             <input type="text" id="cvv" name="cvv" placeholder="123">
           </div>
         </div>
@@ -131,7 +160,7 @@
       <!-- M-Pesa Payment Fields -->
       <div id="mpesa-payment" class="payment-details hidden">
         <div class="form-group">
-          <label for="mpesa-phone">M-Pesa Phone Number</label>
+          <label for="mpesa-phone">M-Pesa Phone Number *</label>
           <input type="tel" id="mpesa-phone" name="mpesa-phone" placeholder="e.g., 0712345678">
           <p class="info-text">An STK push will be sent to this number to complete the payment.</p>
         </div>
@@ -186,7 +215,7 @@
 
     // Calculate total fee
     const fees = {
-      'under-18': 1,
+      'under-18': 300,
       'singles': 400,
       'mixed-team': 1800,
       'family-team': 1000
@@ -197,73 +226,98 @@
     });
     feeDisplay.textContent = totalFee > 0 ? `${totalFee} Kshs` : 'Select categories to see the total fee';
 
-    return totalFee; // Return the total fee for use in handlePayment
+    return totalFee;
+  }
+
+  // Show error message to user
+  function showError(message) {
+    const existingError = document.querySelector('.error-message');
+    if (existingError) existingError.remove();
+
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = message;
+    document.body.prepend(errorDiv);
+    setTimeout(() => errorDiv.remove(), 5000);
   }
 
   // Handle form submission, save registration, and initiate payment
   async function handlePayment(event) {
     event.preventDefault();
 
-    const categories = document.querySelectorAll('input[name="category"]:checked');
-    const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
-    const totalFee = updateForm();
-
-    // Validate categories
-    if (categories.length === 0) {
-      alert('Please select at least one tournament category.');
-      return false;
-    }
-
-    // Validate team details if applicable
-    const isMixedTeamSelected = Array.from(categories).some(cat => cat.value === 'mixed-team');
-    const isFamilyTeamSelected = Array.from(categories).some(cat => cat.value === 'family-team');
-
-    if (isMixedTeamSelected) {
-      const mixedTeamName = document.getElementById('mixed-team-name').value;
-      const mixedTeamMembers = Array.from(document.querySelectorAll('#mixed-team-details .team-member')).map(member => member.value);
-      if (!mixedTeamName) {
-        alert('Please enter your Mixed Team name.');
-        return false;
-      }
-      for (let member of mixedTeamMembers) {
-        if (!member) {
-          alert('Please enter all Mixed Team member names.');
-          return false;
-        }
-      }
-    }
-
-    if (isFamilyTeamSelected) {
-      const familyTeamName = document.getElementById('family-team-name').value;
-      if (!familyTeamName) {
-        alert('Please enter your Family Team name.');
-        return false;
-      }
-    }
-
-    // Collect registration data
+    // Basic validation
     const fullName = document.getElementById('full-name').value;
     const phone = document.getElementById('phone').value;
     const gender = document.querySelector('input[name="gender"]:checked')?.value;
-    const selectedCategories = Array.from(categories).map(cat => cat.value);
-    const mixedTeamName = isMixedTeamSelected ? document.getElementById('mixed-team-name').value : null;
-    const mixedTeamMembers = isMixedTeamSelected
-      ? Array.from(document.querySelectorAll('#mixed-team-details .team-member')).map(member => member.value)
-      : null;
-    const familyTeamName = isFamilyTeamSelected ? document.getElementById('family-team-name').value : null;
+    const categories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(c => c.value);
 
+    if (!fullName || !phone || !gender || categories.length === 0) {
+      showError('Please fill all required fields');
+      return false;
+    }
+
+    // Team validations
+    const isMixedTeamSelected = categories.includes('mixed-team');
+    const isFamilyTeamSelected = categories.includes('family-team');
+
+    if (isMixedTeamSelected) {
+      const mixedTeamName = document.getElementById('mixed-team-name').value;
+      const mixedTeamMembers = Array.from(document.querySelectorAll('#mixed-team-details .team-member')).map(m => m.value);
+
+      if (!mixedTeamName || mixedTeamMembers.some(m => !m)) {
+        showError('Please fill all mixed team details');
+        return false;
+      }
+    }
+
+    if (isFamilyTeamSelected && !document.getElementById('family-team-name').value) {
+      showError('Please enter your family team name');
+      return false;
+    }
+
+    // Payment validation
+    const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
+    if (!paymentMethod) {
+      showError('Please select a payment method');
+      return false;
+    }
+
+    if (paymentMethod === 'mpesa') {
+      const mpesaPhone = document.getElementById('mpesa-phone').value;
+      if (!mpesaPhone || !mpesaPhone.match(/^07\d{8}$/)) {
+        showError('Please enter a valid M-Pesa phone number (e.g., 0712345678)');
+        return false;
+      }
+    }
+
+    if (paymentMethod === 'card') {
+      const cardNumber = document.getElementById('card-number').value;
+      const expiry = document.getElementById('expiry').value;
+      const cvv = document.getElementById('cvv').value;
+
+      if (!cardNumber || !expiry || !cvv) {
+        showError('Please fill all card details');
+        return false;
+      }
+    }
+
+    // Prepare registration data
     const registrationData = {
       fullName,
       phone,
       gender,
-      categories: selectedCategories,
-      mixedTeamName,
-      mixedTeamMembers,
-      familyTeamName,
+      categories,
+      mixedTeamName: isMixedTeamSelected ? document.getElementById('mixed-team-name').value : null,
+      mixedTeamMembers: isMixedTeamSelected ?
+        Array.from(document.querySelectorAll('#mixed-team-details .team-member')).map(m => m.value) :
+        null,
+      familyTeamName: isFamilyTeamSelected ? document.getElementById('family-team-name').value : null
     };
 
-    // Save registration data to PostgreSQL
+    const totalFee = updateForm();
+
     try {
+      // Save registration data
       const saveResponse = await fetch('https://suttcwebapp-backend.onrender.com/saveRegistration', {
         method: 'POST',
         headers: {
@@ -272,25 +326,15 @@
         body: JSON.stringify(registrationData),
       });
 
-      const saveResult = await saveResponse.json();
-      if (saveResponse.status !== 200) {
-        throw new Error(saveResult.error || 'Failed to save registration data');
-      }
-    } catch (error) {
-      alert('Error saving registration data: ' + error.message);
-      return false;
-    }
-
-    // Handle payment
-    if (paymentMethod === 'mpesa') {
-      const mpesaPhone = document.getElementById('mpesa-phone').value;
-      if (!mpesaPhone || !mpesaPhone.match(/^07\d{8}$/)) {
-        alert('Please enter a valid M-Pesa phone number (e.g., 0712345678).');
-        return false;
+      if (!saveResponse.ok) {
+        const error = await saveResponse.json();
+        throw new Error(error.error || 'Failed to save registration');
       }
 
-      try {
-        const response = await fetch('https://suttcwebapp-backend.onrender.com/initiateStkPush', {
+      // Handle payment
+      if (paymentMethod === 'mpesa') {
+        const mpesaPhone = document.getElementById('mpesa-phone').value;
+        const paymentResponse = await fetch('https://suttcwebapp-backend.onrender.com/initiateStkPush', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -301,29 +345,30 @@
           }),
         });
 
-        const result = await response.json();
-        if (result.ResponseCode === '0') {
+        const paymentResult = await paymentResponse.json();
+        if (paymentResult.ResponseCode === '0') {
           alert('STK Push initiated. Please check your phone and enter your M-Pesa PIN to complete the payment.');
         } else {
-          alert('Failed to initiate payment: ' + (result.ResponseDescription || 'Unknown error'));
+          throw new Error(paymentResult.ResponseDescription || 'Payment initiation failed');
         }
-      } catch (error) {
-        alert('Error initiating payment: ' + error.message);
-        return false;
+      } else if (paymentMethod === 'card') {
+        alert('Registration successful! Card payment processing would happen here in a real implementation.');
       }
-    } else if (paymentMethod === 'card') {
-      const cardNumber = document.getElementById('card-number').value;
-      const expiry = document.getElementById('expiry').value;
-      const cvv = document.getElementById('cvv').value;
-      if (!cardNumber || !expiry || !cvv) {
-        alert('Please fill in all card details.');
-        return false;
-      }
-      alert('Card payment processing is not implemented in this example.');
-    }
 
-    return false; // Prevent form submission
+      // Reset form after successful submission
+      document.getElementById('registration-form').reset();
+      document.getElementById('fee-display').textContent = 'Select categories to see the total fee';
+      document.getElementById('mixed-team-details').classList.add('hidden');
+      document.getElementById('family-team-details').classList.add('hidden');
+
+    } catch (error) {
+      console.error('Error:', error);
+      showError(error.message || 'An error occurred during registration');
+    }
   }
+
+  // Initialize form
+  document.getElementById('registration-form').addEventListener('submit', handlePayment);
 
   // Navigation bar scroll effect
   window.addEventListener('scroll', function() {
