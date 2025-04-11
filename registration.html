@@ -31,7 +31,7 @@
 
   <div class="registration-section">
     <h2 class="section-title">Register for SUTTC 2025 Tournament</h2>
-    <form id="registration-form" class="registration-form" onsubmit="return validateForm(event)">
+    <form id="registration-form" class="registration-form" onsubmit="return handlePayment(event)">
       <!-- User Details -->
       <div class="form-group">
         <label for="full-name">Full Name</label>
@@ -196,15 +196,19 @@
       totalFee += fees[category.value] || 0;
     });
     feeDisplay.textContent = totalFee > 0 ? `${totalFee} Kshs` : 'Select categories to see the total fee';
+
+    return totalFee; // Return the total fee for use in handlePayment
   }
 
-  // Basic form validation
-  function validateForm(event) {
+  // Handle form submission, save registration, and initiate payment
+  async function handlePayment(event) {
     event.preventDefault();
+
     const categories = document.querySelectorAll('input[name="category"]:checked');
     const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
+    const totalFee = updateForm();
 
-    // Ensure at least one category is selected
+    // Validate categories
     if (categories.length === 0) {
       alert('Please select at least one tournament category.');
       return false;
@@ -216,13 +220,13 @@
 
     if (isMixedTeamSelected) {
       const mixedTeamName = document.getElementById('mixed-team-name').value;
-      const mixedTeamMembers = document.querySelectorAll('#mixed-team-details .team-member');
+      const mixedTeamMembers = Array.from(document.querySelectorAll('#mixed-team-details .team-member')).map(member => member.value);
       if (!mixedTeamName) {
         alert('Please enter your Mixed Team name.');
         return false;
       }
       for (let member of mixedTeamMembers) {
-        if (!member.value) {
+        if (!member) {
           alert('Please enter all Mixed Team member names.');
           return false;
         }
@@ -237,8 +241,77 @@
       }
     }
 
-    // Validate payment details
-    if (paymentMethod === 'card') {
+    // Collect registration data
+    const fullName = document.getElementById('full-name').value;
+    const phone = document.getElementById('phone').value;
+    const gender = document.querySelector('input[name="gender"]:checked')?.value;
+    const selectedCategories = Array.from(categories).map(cat => cat.value);
+    const mixedTeamName = isMixedTeamSelected ? document.getElementById('mixed-team-name').value : null;
+    const mixedTeamMembers = isMixedTeamSelected
+      ? Array.from(document.querySelectorAll('#mixed-team-details .team-member')).map(member => member.value)
+      : null;
+    const familyTeamName = isFamilyTeamSelected ? document.getElementById('family-team-name').value : null;
+
+    const registrationData = {
+      fullName,
+      phone,
+      gender,
+      categories: selectedCategories,
+      mixedTeamName,
+      mixedTeamMembers,
+      familyTeamName,
+    };
+
+    // Save registration data to PostgreSQL
+    try {
+      const saveResponse = await fetch('https://suttcwebapp-backend.onrender.com/saveRegistration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(registrationData),
+      });
+
+      const saveResult = await saveResponse.json();
+      if (saveResponse.status !== 200) {
+        throw new Error(saveResult.error || 'Failed to save registration data');
+      }
+    } catch (error) {
+      alert('Error saving registration data: ' + error.message);
+      return false;
+    }
+
+    // Handle payment
+    if (paymentMethod === 'mpesa') {
+      const mpesaPhone = document.getElementById('mpesa-phone').value;
+      if (!mpesaPhone || !mpesaPhone.match(/^07\d{8}$/)) {
+        alert('Please enter a valid M-Pesa phone number (e.g., 0712345678).');
+        return false;
+      }
+
+      try {
+        const response = await fetch('https://suttcwebapp-backend.onrender.com/initiateStkPush', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            phoneNumber: mpesaPhone,
+            amount: totalFee,
+          }),
+        });
+
+        const result = await response.json();
+        if (result.ResponseCode === '0') {
+          alert('STK Push initiated. Please check your phone and enter your M-Pesa PIN to complete the payment.');
+        } else {
+          alert('Failed to initiate payment: ' + (result.ResponseDescription || 'Unknown error'));
+        }
+      } catch (error) {
+        alert('Error initiating payment: ' + error.message);
+        return false;
+      }
+    } else if (paymentMethod === 'card') {
       const cardNumber = document.getElementById('card-number').value;
       const expiry = document.getElementById('expiry').value;
       const cvv = document.getElementById('cvv').value;
@@ -246,16 +319,10 @@
         alert('Please fill in all card details.');
         return false;
       }
-    } else if (paymentMethod === 'mpesa') {
-      const mpesaPhone = document.getElementById('mpesa-phone').value;
-      if (!mpesaPhone) {
-        alert('Please enter your M-Pesa phone number.');
-        return false;
-      }
+      alert('Card payment processing is not implemented in this example.');
     }
 
-    alert('Thanks for your registration, See you there.');
-    return true;
+    return false; // Prevent form submission
   }
 
   // Navigation bar scroll effect
